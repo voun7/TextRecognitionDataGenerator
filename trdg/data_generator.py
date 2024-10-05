@@ -1,7 +1,7 @@
 import os
 import random as rnd
 
-from PIL import Image, ImageFilter, ImageStat
+from PIL import Image, ImageFilter
 
 from trdg import computer_text_generator, background_generator, distorsion_generator
 from trdg.utils import mask_to_bboxes, make_filename_valid
@@ -70,7 +70,6 @@ class FakeTextDataGenerator:
             stroke_fill,
         )
         random_angle = rnd.randint(0 - skewing_angle, skewing_angle)
-
         rotated_img = image.rotate(skewing_angle if not random_skew else random_angle, expand=1)
         rotated_mask = mask.rotate(skewing_angle if not random_skew else random_angle, expand=1)
 
@@ -105,7 +104,6 @@ class FakeTextDataGenerator:
         ##################################
         # Resize image to desired format #
         ##################################
-
         # Horizontal text
         if orientation == 0:
             new_width = int(distorted_img.size[0] * (float(size - vertical_margin) / float(distorted_img.size[1])))
@@ -138,28 +136,10 @@ class FakeTextDataGenerator:
             background_img = background_generator.image(background_height, background_width, image_dir)
         background_mask = Image.new("RGB", (background_width, background_height), (0, 0, 0))
 
-        ##############################################################
-        # Comparing average pixel value of text and background image #
-        ##############################################################
-        try:
-            resized_img_st = ImageStat.Stat(resized_img, resized_mask.split()[2])
-            background_img_st = ImageStat.Stat(background_img)
-
-            resized_img_px_mean = sum(resized_img_st.mean[:2]) / 3
-            background_img_px_mean = sum(background_img_st.mean) / 3
-
-            if abs(resized_img_px_mean - background_img_px_mean) < 15:
-                print(f"Mean pixel is too similar.\n{resized_img_st.mean=}\n{background_img_st.mean}")
-                return
-        except Exception as err:
-            return
-
         #############################
         # Place text with alignment #
         #############################
-
         new_text_width, _ = resized_img.size
-
         if alignment == 0 or width == -1:
             background_img.paste(resized_img, (margin_left, margin_top), resized_img)
             background_mask.paste(resized_mask, (margin_left, margin_top))
@@ -174,14 +154,12 @@ class FakeTextDataGenerator:
         ############################################
         # Change image mode (RGB, grayscale, etc.) #
         ############################################
-
         background_img = background_img.convert(image_mode)
         background_mask = background_mask.convert(image_mode)
 
         #######################
         # Apply gaussian blur #
         #######################
-
         gaussian_filter = ImageFilter.GaussianBlur(radius=blur if not random_blur else rnd.random() * blur)
         final_image = background_img.filter(gaussian_filter)
         final_mask = background_mask.filter(gaussian_filter)

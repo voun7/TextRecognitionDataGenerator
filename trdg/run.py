@@ -348,7 +348,7 @@ def main():
     """
     Description: Main function
     """
-
+    print("Running trdg...")
     # Argument parsing
     args = parse_arguments()
 
@@ -448,7 +448,7 @@ def main():
                     [args.output_bboxes] * string_count,
                 ),
             ),
-            total=args.count,
+            total=args.count, desc="Generating data", colour="green"
     ):
         pass
     p.terminate()
@@ -462,6 +462,7 @@ def main():
                 if args.space_width == 0:
                     label = label.replace(" ", "")
                 f.write("{} {}\n".format(file_name, label))
+    print("Generation completed... Labels saved.")
 
 
 if __name__ == "__main__":

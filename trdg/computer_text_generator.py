@@ -96,10 +96,7 @@ def _generate_horizontal_text(
     else:
         splitted_text = text
 
-    piece_widths = [
-        _compute_character_width(image_font, p) if p != " " else space_width
-        for p in splitted_text
-    ]
+    piece_widths = [_compute_character_width(image_font, p) if p != " " else space_width for p in splitted_text]
     text_width = sum(piece_widths)
     if not word_split:
         text_width += character_spacing * (len(text) - 1)
