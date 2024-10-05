@@ -34,9 +34,7 @@ class GeneratorFromDict:
             fit: bool = False,
             output_mask: bool = False,
             word_split: bool = False,
-            image_dir: str = os.path.join(
-                "..", os.path.split(os.path.realpath(__file__))[0], "images"
-            ),
+            image_dir: str = os.path.join("..", os.path.split(os.path.realpath(__file__))[0], "images"),
             stroke_width: int = 0,
             stroke_fill: str = "#282828",
             image_mode: str = "RGB",
@@ -49,11 +47,7 @@ class GeneratorFromDict:
         self.allow_variable = allow_variable
 
         if path == "":
-            self.dict = load_dict(
-                os.path.join(
-                    os.path.dirname(__file__), "..", "dicts", language + ".txt"
-                )
-            )
+            self.dict = load_dict(os.path.join(os.path.dirname(__file__), "..", "dicts", language + ".txt"))
         else:
             self.dict = load_dict(path)
 
@@ -61,9 +55,7 @@ class GeneratorFromDict:
         self.steps_until_regeneration = self.batch_size
 
         self.generator = GeneratorFromStrings(
-            create_strings_from_dict(
-                self.length, self.allow_variable, self.batch_size, self.dict
-            ),
+            create_strings_from_dict(self.length, self.allow_variable, self.batch_size, self.dict),
             count,
             fonts if len(fonts) else load_fonts(language),
             language,

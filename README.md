@@ -12,7 +12,7 @@ see [the official documentation](https://textrecognitiondatagenerator.readthedoc
 Install the package
 
 ```
-pip install 
+pip install git+https://github.com/voun7/TextRecognitionDataGenerator.git
 ```
 
 Afterward, you can use `trdg` from the CLI. I recommend using a virtualenv instead of installing with root.
@@ -63,7 +63,7 @@ generator = GeneratorFromStrings(
 )
 
 for img, lbl in generator:
-    print(lbl, img)  # Do something with the pillow images here.
+    print(img, lbl)  # Do something with the pillow images here.
 ```
 
 You can see the full class definition here:
