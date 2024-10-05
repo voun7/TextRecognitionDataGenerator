@@ -1,15 +1,13 @@
 import os
 import pickle
-import numpy as np
 import random as rnd
-import tensorflow as tf
-import matplotlib.pyplot as plt
-import matplotlib.cm as cm
-import matplotlib.mlab as mlab
-import seaborn
-from PIL import Image, ImageColor
-from collections import namedtuple
 import warnings
+from collections import namedtuple
+
+import matplotlib.pyplot as plt
+import numpy as np
+import tensorflow as tf
+from PIL import Image, ImageColor
 
 warnings.filterwarnings("ignore")
 
@@ -53,7 +51,7 @@ def _split_strokes(points):
     b = 0
     for e in range(len(points)):
         if points[e, 2] == 1.0:
-            strokes += [points[b : e + 1, :2].copy()]
+            strokes += [points[b: e + 1, :2].copy()]
             b = e + 1
     return strokes
 
@@ -154,8 +152,8 @@ def _crop_white_borders(image):
         max(non_empty_columns),
     )
     image_data_new = image_data[
-        cropBox[0] : cropBox[1] + 1, cropBox[2] : cropBox[3] + 1, :
-    ]
+                     cropBox[0]: cropBox[1] + 1, cropBox[2]: cropBox[3] + 1, :
+                     ]
 
     return Image.fromarray(image_data_new)
 
@@ -179,7 +177,7 @@ def _join_images(images):
 def generate(text, text_color):
     cd = download_model_weights()
     with open(
-        os.path.join(cd, os.path.join("handwritten_model", "translation.pkl")), "rb"
+            os.path.join(cd, os.path.join("handwritten_model", "translation.pkl")), "rb"
     ) as file:
         translation = pickle.load(file)
 

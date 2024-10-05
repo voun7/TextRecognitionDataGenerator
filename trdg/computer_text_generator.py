@@ -1,6 +1,7 @@
 import random as rnd
 from typing import Tuple
-from PIL import Image, ImageColor, ImageDraw, ImageFilter, ImageFont
+
+from PIL import Image, ImageColor, ImageDraw, ImageFont
 
 from trdg.utils import get_text_width, get_text_height
 
@@ -20,17 +21,17 @@ TH_UPPER_VOWELS = ["0xe31", "0xe34", "0xe35", "0xe36", "0xe37"]
 
 
 def generate(
-    text: str,
-    font: str,
-    text_color: str,
-    font_size: int,
-    orientation: int,
-    space_width: int,
-    character_spacing: int,
-    fit: bool,
-    word_split: bool,
-    stroke_width: int = 0,
-    stroke_fill: str = "#282828",
+        text: str,
+        font: str,
+        text_color: str,
+        font_size: int,
+        orientation: int,
+        space_width: int,
+        character_spacing: int,
+        fit: bool,
+        word_split: bool,
+        stroke_width: int = 0,
+        stroke_fill: str = "#282828",
 ) -> Tuple:
     if orientation == 0:
         return _generate_horizontal_text(
@@ -63,8 +64,8 @@ def generate(
 
 def _compute_character_width(image_font: ImageFont, character: str) -> int:
     if len(character) == 1 and (
-        "{0:#x}".format(ord(character))
-        in TH_TONE_MARKS + TH_UNDER_VOWELS + TH_UNDER_VOWELS + TH_UPPER_VOWELS
+            "{0:#x}".format(ord(character))
+            in TH_TONE_MARKS + TH_UNDER_VOWELS + TH_UNDER_VOWELS + TH_UPPER_VOWELS
     ):
         return 0
     # Casting as int to preserve the old behavior
@@ -72,16 +73,16 @@ def _compute_character_width(image_font: ImageFont, character: str) -> int:
 
 
 def _generate_horizontal_text(
-    text: str,
-    font: str,
-    text_color: str,
-    font_size: int,
-    space_width: int,
-    character_spacing: int,
-    fit: bool,
-    word_split: bool,
-    stroke_width: int = 0,
-    stroke_fill: str = "#282828",
+        text: str,
+        font: str,
+        text_color: str,
+        font_size: int,
+        space_width: int,
+        character_spacing: int,
+        fit: bool,
+        word_split: bool,
+        stroke_width: int = 0,
+        stroke_fill: str = "#282828",
 ) -> Tuple:
     image_font = ImageFont.truetype(font=font, size=font_size)
 
@@ -156,15 +157,15 @@ def _generate_horizontal_text(
 
 
 def _generate_vertical_text(
-    text: str,
-    font: str,
-    text_color: str,
-    font_size: int,
-    space_width: int,
-    character_spacing: int,
-    fit: bool,
-    stroke_width: int = 0,
-    stroke_fill: str = "#282828",
+        text: str,
+        font: str,
+        text_color: str,
+        font_size: int,
+        space_width: int,
+        character_spacing: int,
+        fit: bool,
+        stroke_width: int = 0,
+        stroke_fill: str = "#282828",
 ) -> Tuple:
     image_font = ImageFont.truetype(font=font, size=font_size)
 

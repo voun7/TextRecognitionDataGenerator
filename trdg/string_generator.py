@@ -18,7 +18,7 @@ def create_strings_from_file(filename: str, count: int) -> List[str]:
             raise Exception("No lines could be read in file")
         while len(strings) < count:
             if len(lines) >= count - len(strings):
-                strings.extend(lines[0 : count - len(strings)])
+                strings.extend(lines[0: count - len(strings)])
             else:
                 strings.extend(lines)
 
@@ -26,7 +26,7 @@ def create_strings_from_file(filename: str, count: int) -> List[str]:
 
 
 def create_strings_from_dict(
-    length: int, allow_variable: bool, count: int, lang_dict: List[str]
+        length: int, allow_variable: bool, count: int, lang_dict: List[str]
 ) -> List[str]:
     """
     Create all strings by picking X random word in the dictionary
@@ -53,7 +53,7 @@ def get_random_page_content() -> str:
 
 
 def create_strings_from_wikipedia(
-    minimum_length: int, count: int, lang: str
+        minimum_length: int, count: int, lang: str
 ) -> List[str]:
     """
     Create all string by randomly picking Wikipedia articles and taking sentences from them.
@@ -73,13 +73,13 @@ def create_strings_from_wikipedia(
 
 
 def create_strings_randomly(
-    length: int,
-    allow_variable: bool,
-    count: int,
-    let: bool,
-    num: bool,
-    sym: bool,
-    lang: str,
+        length: int,
+        allow_variable: bool,
+        count: int,
+        let: bool,
+        num: bool,
+        sym: bool,
+        lang: str,
 ) -> List[str]:
     """
     Create all strings by randomly sampling from a pool of characters.

@@ -1,9 +1,8 @@
 import os
+import string
+import subprocess
 import sys
 import unittest
-import subprocess
-import hashlib
-import string
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "./trdg")))
 
@@ -1225,7 +1224,8 @@ class DataGenerator(unittest.TestCase):
     def test_generate_japanese_string(self):
         s = create_strings_randomly(1, False, 1, True, False, False, "ja")[0]
 
-        ja_chars = [chr(i) for i in range(12288, 12543)] + [chr(i) for i in range(65280, 65519)] + [chr(i) for i in range(19968, 40908)]
+        ja_chars = [chr(i) for i in range(12288, 12543)] + [chr(i) for i in range(65280, 65519)] + [chr(i) for i in
+                                                                                                    range(19968, 40908)]
 
         self.assertTrue(all([l in ja_chars for l in s]))
 

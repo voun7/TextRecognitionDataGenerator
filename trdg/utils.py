@@ -4,10 +4,10 @@ Utility functions
 
 import os
 import re
-import unicodedata
 from typing import List, Tuple
 
 import numpy as np
+import unicodedata
 from PIL import Image, ImageDraw, ImageFont
 
 
@@ -16,10 +16,10 @@ def load_dict(path: str) -> List[str]:
 
     word_dict = []
     with open(
-        path,
-        "r",
-        encoding="utf8",
-        errors="ignore",
+            path,
+            "r",
+            encoding="utf8",
+            errors="ignore",
     ) as d:
         word_dict = [l for l in d.read().splitlines() if len(l) > 0]
 
@@ -102,7 +102,7 @@ def mask_to_bboxes(mask: List[Tuple[int, int, int, int]], tess: bool = False):
 
 
 def draw_bounding_boxes(
-    img: Image, bboxes: List[Tuple[int, int, int, int]], color: str = "green"
+        img: Image, bboxes: List[Tuple[int, int, int, int]], color: str = "green"
 ) -> None:
     d = ImageDraw.Draw(img)
 

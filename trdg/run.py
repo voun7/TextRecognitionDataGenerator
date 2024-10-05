@@ -6,7 +6,6 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 import random as rnd
-import string
 import sys
 from multiprocessing import Pool
 
@@ -406,9 +405,9 @@ def main():
         )
         # Set a name format compatible with special characters automatically if they are used
         if args.include_symbols or True not in (
-            args.include_letters,
-            args.include_numbers,
-            args.include_symbols,
+                args.include_letters,
+                args.include_numbers,
+                args.include_symbols,
         ):
             args.name_format = 2
     else:
@@ -436,42 +435,42 @@ def main():
 
     p = Pool(args.thread_count)
     for _ in tqdm(
-        p.imap_unordered(
-            FakeTextDataGenerator.generate_from_tuple,
-            zip(
-                [i for i in range(0, string_count)],
-                strings,
-                [fonts[rnd.randrange(0, len(fonts))] for _ in range(0, string_count)],
-                [args.output_dir] * string_count,
-                [args.format] * string_count,
-                [args.extension] * string_count,
-                [args.skew_angle] * string_count,
-                [args.random_skew] * string_count,
-                [args.blur] * string_count,
-                [args.random_blur] * string_count,
-                [args.background] * string_count,
-                [args.distorsion] * string_count,
-                [args.distorsion_orientation] * string_count,
-                [args.handwritten] * string_count,
-                [args.name_format] * string_count,
-                [args.width] * string_count,
-                [args.alignment] * string_count,
-                [args.text_color] * string_count,
-                [args.orientation] * string_count,
-                [args.space_width] * string_count,
-                [args.character_spacing] * string_count,
-                [args.margins] * string_count,
-                [args.fit] * string_count,
-                [args.output_mask] * string_count,
-                [args.word_split] * string_count,
-                [args.image_dir] * string_count,
-                [args.stroke_width] * string_count,
-                [args.stroke_fill] * string_count,
-                [args.image_mode] * string_count,
-                [args.output_bboxes] * string_count,
+            p.imap_unordered(
+                FakeTextDataGenerator.generate_from_tuple,
+                zip(
+                    [i for i in range(0, string_count)],
+                    strings,
+                    [fonts[rnd.randrange(0, len(fonts))] for _ in range(0, string_count)],
+                    [args.output_dir] * string_count,
+                    [args.format] * string_count,
+                    [args.extension] * string_count,
+                    [args.skew_angle] * string_count,
+                    [args.random_skew] * string_count,
+                    [args.blur] * string_count,
+                    [args.random_blur] * string_count,
+                    [args.background] * string_count,
+                    [args.distorsion] * string_count,
+                    [args.distorsion_orientation] * string_count,
+                    [args.handwritten] * string_count,
+                    [args.name_format] * string_count,
+                    [args.width] * string_count,
+                    [args.alignment] * string_count,
+                    [args.text_color] * string_count,
+                    [args.orientation] * string_count,
+                    [args.space_width] * string_count,
+                    [args.character_spacing] * string_count,
+                    [args.margins] * string_count,
+                    [args.fit] * string_count,
+                    [args.output_mask] * string_count,
+                    [args.word_split] * string_count,
+                    [args.image_dir] * string_count,
+                    [args.stroke_width] * string_count,
+                    [args.stroke_fill] * string_count,
+                    [args.image_mode] * string_count,
+                    [args.output_bboxes] * string_count,
+                ),
             ),
-        ),
-        total=args.count,
+            total=args.count,
     ):
         pass
     p.terminate()
@@ -479,7 +478,7 @@ def main():
     if args.name_format == 2:
         # Create file with filename-to-label connections
         with open(
-            os.path.join(args.output_dir, "labels.txt"), "w", encoding="utf8"
+                os.path.join(args.output_dir, "labels.txt"), "w", encoding="utf8"
         ) as f:
             for i in range(string_count):
                 file_name = str(i) + "." + args.extension
