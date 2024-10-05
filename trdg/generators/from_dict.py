@@ -1,5 +1,4 @@
 import os
-from typing import List, Tuple
 
 from trdg.generators.from_strings import GeneratorFromStrings
 from trdg.string_generator import create_strings_from_dict
@@ -14,7 +13,7 @@ class GeneratorFromDict:
             count: int = -1,
             length: int = 1,
             allow_variable: bool = False,
-            fonts: List[str] = [],
+            fonts: list[str] = [],
             language: str = "en",
             size: int = 32,
             skewing_angle: int = 0,
@@ -31,7 +30,7 @@ class GeneratorFromDict:
             orientation: int = 0,
             space_width: float = 1.0,
             character_spacing: int = 0,
-            margins: Tuple[int, int, int, int] = (5, 5, 5, 5),
+            margins: tuple[int, int, int, int] = (5, 5, 5, 5),
             fit: bool = False,
             output_mask: bool = False,
             word_split: bool = False,

@@ -4,48 +4,31 @@ Utility functions
 
 import os
 import re
-from typing import List, Tuple
 
 import numpy as np
 import unicodedata
 from PIL import Image, ImageDraw, ImageFont
 
 
-def load_dict(path: str) -> List[str]:
+def load_dict(path: str) -> list[str]:
     """Read the dictionary file and returns all words in it."""
-
-    word_dict = []
-    with open(
-            path,
-            "r",
-            encoding="utf8",
-            errors="ignore",
-    ) as d:
+    with open(path, "r", encoding="utf8", errors="ignore") as d:
         word_dict = [l for l in d.read().splitlines() if len(l) > 0]
-
     return word_dict
 
 
-def load_fonts(lang: str) -> List[str]:
+def load_fonts(lang: str) -> list[str]:
     """Load all fonts in the fonts directories"""
 
     if lang in os.listdir(os.path.join(os.path.dirname(__file__), "fonts")):
-        return [
-            os.path.join(os.path.dirname(__file__), "fonts/{}".format(lang), font)
-            for font in os.listdir(
-                os.path.join(os.path.dirname(__file__), "fonts/{}".format(lang))
-            )
-        ]
+        return [os.path.join(os.path.dirname(__file__), "fonts/{}".format(lang), font)
+                for font in os.listdir(os.path.join(os.path.dirname(__file__), "fonts/{}".format(lang)))]
     else:
-        return [
-            os.path.join(os.path.dirname(__file__), "fonts/latin", font)
-            for font in os.listdir(
-                os.path.join(os.path.dirname(__file__), "fonts/latin")
-            )
-        ]
+        return [os.path.join(os.path.dirname(__file__), "fonts/latin", font)
+                for font in os.listdir(os.path.join(os.path.dirname(__file__), "fonts/latin"))]
 
 
-def mask_to_bboxes(mask: List[Tuple[int, int, int, int]], tess: bool = False):
+def mask_to_bboxes(mask: list[tuple[int, int, int, int]], tess: bool = False):
     """Process the mask and turns it into a list of AABB bounding boxes"""
 
     mask_arr = np.array(mask)
@@ -63,17 +46,13 @@ def mask_to_bboxes(mask: List[Tuple[int, int, int, int]], tess: bool = False):
                 y1 = (
                     min(bboxes[-1][3] + 1, np.min(letter[0]) - 1)
                     if not tess
-                    else min(
-                        mask_arr.shape[0] - np.min(letter[0]) + 2, bboxes[-1][1] - 1
-                    )
+                    else min(mask_arr.shape[0] - np.min(letter[0]) + 2, bboxes[-1][1] - 1)
                 )
                 x2 = max(bboxes[-1][2] + 1, np.min(letter[1]) - 2)
                 y2 = (
                     max(bboxes[-1][3] + 1, np.min(letter[0]) - 2)
                     if not tess
-                    else max(
-                        mask_arr.shape[0] - np.min(letter[0]) + 2, bboxes[-1][1] - 1
-                    )
+                    else max(mask_arr.shape[0] - np.min(letter[0]) + 2, bboxes[-1][1] - 1)
                 )
                 bboxes.append((x1, y1, x2, y2))
                 space_thresh += 1
@@ -86,9 +65,7 @@ def mask_to_bboxes(mask: List[Tuple[int, int, int, int]], tess: bool = False):
                     min(mask_arr.shape[1] - 1, np.max(letter[1]) + 1),
                     min(mask_arr.shape[0] - 1, np.max(letter[0]) + 1)
                     if not tess
-                    else min(
-                        mask_arr.shape[0] - 1, mask_arr.shape[0] - np.min(letter[0]) + 1
-                    ),
+                    else min(mask_arr.shape[0] - 1, mask_arr.shape[0] - np.min(letter[0]) + 1),
                 )
             )
             i += 1
@@ -101,11 +78,8 @@ def mask_to_bboxes(mask: List[Tuple[int, int, int, int]], tess: bool = False):
     return bboxes
 
 
-def draw_bounding_boxes(
-        img: Image, bboxes: List[Tuple[int, int, int, int]], color: str = "green"
-) -> None:
+def draw_bounding_boxes(img: Image, bboxes: list[tuple[int, int, int, int]], color: str = "green") -> None:
     d = ImageDraw.Draw(img)
-
     for bbox in bboxes:
         d.rectangle(bbox, outline=color)
 
@@ -123,13 +97,8 @@ def make_filename_valid(value: str, allow_unicode: bool = False) -> str:
     if allow_unicode:
         value = unicodedata.normalize("NFKC", value)
     else:
-        value = (
-            unicodedata.normalize("NFKD", value)
-            .encode("ascii", "ignore")
-            .decode("ascii")
-        )
+        value = (unicodedata.normalize("NFKD", value).encode("ascii", "ignore").decode("ascii"))
     value = re.sub(r"[^\w\s-]", "", value)
-
     # Image names will be shortened to avoid exceeding the max filename length
     return value[:200]
 

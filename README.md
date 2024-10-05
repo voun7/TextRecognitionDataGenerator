@@ -1,4 +1,4 @@
-# TextRecognitionDataGenerator [![CircleCI](https://circleci.com/gh/Belval/TextRecognitionDataGenerator/tree/master.svg?style=svg)](https://circleci.com/gh/Belval/TextRecognitionDataGenerator/tree/master) [![PyPI version](https://badge.fury.io/py/trdg.svg)](https://badge.fury.io/py/trdg) [![codecov](https://codecov.io/gh/Belval/TextRecognitionDataGenerator/branch/master/graph/badge.svg)](https://codecov.io/gh/Belval/TextRecognitionDataGenerator) [![Documentation Status](https://readthedocs.org/projects/textrecognitiondatagenerator/badge/?version=latest)](https://textrecognitiondatagenerator.readthedocs.io/en/latest/?badge=latest)
+# TextRecognitionDataGenerator
 
 A synthetic data generator for text recognition
 
@@ -9,42 +9,30 @@ see [the official documentation](https://textrecognitiondatagenerator.readthedoc
 
 ## What do I need to make it work?
 
-Install the pypi package
+Install the package
 
 ```
-pip install trdg
+pip install 
 ```
 
-Afterwards, you can use `trdg` from the CLI. I recommend using a virtualenv instead of installing with `sudo`.
+Afterward, you can use `trdg` from the CLI. I recommend using a virtualenv instead of installing with root.
 
 If you want to add another language, you can clone the repository instead. Simply run `pip install -r requirements.txt`
-
-## Docker image
-
-If you would rather not have to install anything to use TextRecognitionDataGenerator, you can pull the docker image.
-
-```
-docker pull belval/trdg:latest
-
-docker run -v /output/path/:/app/out/ -t belval/trdg:latest trdg [args]
-```
-
-The path (`/output/path/`) must be absolute.
 
 ## New
 
 - Add `--stroke_width` argument to set the width of the text stroke (Thank
-  you [@SunHaozhe](https://github.com/SunHaozhe))
+  you, [@SunHaozhe](https://github.com/SunHaozhe))
 - Add `--stroke_fill` argument to set the color of the text contour if stroke > 0 (Thank
-  you [@SunHaozhe](https://github.com/SunHaozhe))
+  you, [@SunHaozhe](https://github.com/SunHaozhe))
 - Add `--word_split` argument to split on word instead of per-character. This is useful for ligature-based languages
-- Add `--dict` argument to specify a custom dictionary (Thank you [@luh0907](https://github.com/luh0907))
+- Add `--dict` argument to specify a custom dictionary (Thank you, [@luh0907](https://github.com/luh0907))
 - Add `--font_dir` argument to specify the fonts to use
 - Add `--output_mask` to output character-level mask for each image
 - Add `--character_spacing` to control space between characters (in pixels)
 - Add python module
 - Add `--font` to use only one font for all the generated images (Thank
-  you [@JulienCoutault](https://github.com/JulienCoutault)!)
+  you, [@JulienCoutault](https://github.com/JulienCoutault)!)
 - Add `--fit` and `--margins` for finer layout control
 - Change the text orientation using the `-or` parameter
 - Specify text color range using `-tc '#000000,#FFFFFF'`, please note that the quotes are **necessary**
@@ -65,7 +53,6 @@ from trdg.generators import (
     GeneratorFromDict,
     GeneratorFromRandom,
     GeneratorFromStrings,
-    GeneratorFromWikipedia,
 )
 
 # The generators use the same arguments as the CLI, only as parameters
@@ -76,7 +63,7 @@ generator = GeneratorFromStrings(
 )
 
 for img, lbl in generator:
-# Do something with the pillow images here.
+    print(lbl, img)  # Do something with the pillow images here.
 ```
 
 You can see the full class definition here:
@@ -84,7 +71,6 @@ You can see the full class definition here:
 - [`GeneratorFromDict`](trdg/generators/from_dict.py)
 - [`GeneratorFromRandom`](trdg/generators/from_random.py)
 - [`GeneratorFromStrings`](trdg/generators/from_strings.py)
-- [`GeneratorFromWikipedia`](trdg/generators/from_wikipedia.py)
 
 ### Basic (CLI)
 
@@ -141,21 +127,6 @@ white (1), quasicrystal (2) or image (3).
 When using image background (3). A image from the images/ folder will be randomly selected and the text will be written
 on it.
 
-### Handwritten
-
-Or maybe you are working on an OCR for handwritten text? Add `-hw`! (Experimental)
-
-![18](samples/18.jpg "0")
-![19](samples/19.jpg "1")
-![20](samples/20.jpg "2")
-![21](samples/21.jpg "3")
-![22](samples/22.jpg "4")
-
-It uses a Tensorflow model trained using [this excellent project](https://github.com/Grzego/handwriting-generation) by
-Grzego.
-
-**The project does not require TensorFlow to run if you aren't using this feature**
-
 ### Dictionary
 
 The text is chosen at random in a dictionary file (that can be found in the *dicts* folder) and drawn on a white
@@ -209,34 +180,3 @@ If you want to add a new non-latin language, the amount of work is minimal.
 5. Run the tool as you normally would but add `-l` with your two-letters code
 
 It only supports .ttf for now.
-
-## Benchmarks
-
-Number of images generated per second.
-
-- Intel Core i7-4710HQ @ 2.50Ghz + SSD (-c 1000 -w 1)
-    - `-t 1` : 363 img/s
-    - `-t 2` : 694 img/s
-    - `-t 4` : 1300 img/s
-    - `-t 8` : 1500 img/s
-- AMD Ryzen 7 1700 @ 4.0Ghz + SSD (-c 1000 -w 1)
-    - `-t 1` : 558 img/s
-    - `-t 2` : 1045 img/s
-    - `-t 4` : 2107 img/s
-    - `-t 8` : 3297 img/s
-
-## Contributing
-
-1. Create an issue describing the feature you'll be working on
-2. Code said feature
-3. Create a pull request
-
-## Feature request & issues
-
-If anything is missing, unclear, or simply not working, open an issue on the repository.
-
-## What is left to do?
-
-- Better background generation
-- Better handwritten text generation
-- More customization parameters (mostly regarding background)

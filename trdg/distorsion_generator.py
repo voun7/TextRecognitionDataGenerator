@@ -1,14 +1,11 @@
 import math
 import random as rnd
-from typing import Tuple
 
 import numpy as np
 from PIL import Image
 
 
-def _apply_func_distorsion(
-        image: Image, mask: Image, vertical: bool, horizontal: bool, max_offset: int, func
-) -> Tuple:
+def _apply_func_distorsion(image: Image, mask: Image, vertical: bool, horizontal: bool, max_offset: int, func) -> tuple:
     """
     Apply a distortion to an image
     """
@@ -81,30 +78,19 @@ def _apply_func_distorsion(
                 i, max_offset + o: row_width + max_offset + o, :
                 ] = new_mask_arr[i, max_offset: row_width + max_offset, :]
             else:
-                new_img_arr[
-                i, max_offset + o: row_width + max_offset + o, :
-                ] = img_arr[i, :, :]
-                new_mask_arr[
-                i, max_offset + o: row_width + max_offset + o, :
-                ] = mask_arr[i, :, :]
+                new_img_arr[i, max_offset + o: row_width + max_offset + o, :] = img_arr[i, :, :]
+                new_mask_arr[i, max_offset + o: row_width + max_offset + o, :] = mask_arr[i, :, :]
 
     return (
-        Image.fromarray(
-            np.uint8(new_img_arr_copy if horizontal and vertical else new_img_arr)
-        ).convert("RGBA"),
-        Image.fromarray(
-            np.uint8(new_mask_arr_copy if horizontal and vertical else new_mask_arr)
-        ).convert("RGB"),
+        Image.fromarray(np.uint8(new_img_arr_copy if horizontal and vertical else new_img_arr)).convert("RGBA"),
+        Image.fromarray(np.uint8(new_mask_arr_copy if horizontal and vertical else new_mask_arr)).convert("RGB"),
     )
 
 
-def sin(
-        image: Image, mask: Image, vertical: bool = False, horizontal: bool = False
-) -> Tuple:
+def sin(image: Image, mask: Image, vertical: bool = False, horizontal: bool = False) -> tuple:
     """
     Apply a sine distortion on one or both of the specified axis
     """
-
     max_offset = int(image.height ** 0.5)
 
     return _apply_func_distorsion(
@@ -117,13 +103,10 @@ def sin(
     )
 
 
-def cos(
-        image: Image, mask: Image, vertical: bool = False, horizontal: bool = False
-) -> Tuple:
+def cos(image: Image, mask: Image, vertical: bool = False, horizontal: bool = False) -> tuple:
     """
     Apply a cosine distortion on one or both of the specified axis
     """
-
     max_offset = int(image.height ** 0.5)
 
     return _apply_func_distorsion(
@@ -136,13 +119,10 @@ def cos(
     )
 
 
-def random(
-        image: Image, mask: Image, vertical: bool = False, horizontal: bool = False
-) -> Tuple:
+def random(image: Image, mask: Image, vertical: bool = False, horizontal: bool = False) -> tuple:
     """
     Apply a random distortion on one or both of the specified axis
     """
-
     max_offset = int(image.height ** 0.4)
 
     return _apply_func_distorsion(

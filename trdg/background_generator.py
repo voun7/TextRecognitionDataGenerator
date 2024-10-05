@@ -11,13 +11,10 @@ def gaussian_noise(height: int, width: int) -> Image:
     """
     Create a background with Gaussian noise (to mimic paper)
     """
-
     # We create an all white image
     image = np.ones((height, width)) * 255
-
     # We add gaussian noise
     cv2.randn(image, 235, 10)
-
     return Image.fromarray(image).convert("RGBA")
 
 
@@ -25,7 +22,6 @@ def plain_white(height: int, width: int) -> Image:
     """
     Create a plain white background
     """
-
     return Image.new("L", (width, height), 255).convert("RGBA")
 
 
@@ -57,25 +53,17 @@ def quasicrystal(height: int, width: int) -> Image:
 
 def image(height: int, width: int, image_dir: str) -> Image:
     """
-    Create a background with a image
+    Create a background with an image
     """
     images = os.listdir(image_dir)
 
     if len(images) > 0:
-        pic = Image.open(
-            os.path.join(image_dir, images[rnd.randint(0, len(images) - 1)])
-        )
+        pic = Image.open(os.path.join(image_dir, images[rnd.randint(0, len(images) - 1)]))
 
         if pic.size[0] < width:
-            pic = pic.resize(
-                [width, int(pic.size[1] * (width / pic.size[0]))],
-                Image.Resampling.LANCZOS,
-            )
+            pic = pic.resize([width, int(pic.size[1] * (width / pic.size[0]))], Image.Resampling.LANCZOS)
         if pic.size[1] < height:
-            pic = pic.resize(
-                [int(pic.size[0] * (height / pic.size[1])), height],
-                Image.Resampling.LANCZOS,
-            )
+            pic = pic.resize([int(pic.size[0] * (height / pic.size[1])), height], Image.Resampling.LANCZOS)
 
         if pic.size[0] == width:
             x = 0

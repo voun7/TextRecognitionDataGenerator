@@ -12,12 +12,7 @@ from multiprocessing import Pool
 from tqdm import tqdm
 
 from trdg.data_generator import FakeTextDataGenerator
-from trdg.string_generator import (
-    create_strings_from_dict,
-    create_strings_from_file,
-    create_strings_from_wikipedia,
-    create_strings_randomly,
-)
+from trdg.string_generator import create_strings_from_dict, create_strings_from_file, create_strings_randomly
 from trdg.utils import load_dict, load_fonts
 
 
@@ -52,7 +47,7 @@ def parse_arguments():
         "--language",
         type=str,
         nargs="?",
-        help="The language to use, should be fr (French), en (English), es (Spanish), de (German), ar (Arabic), cn (Chinese), ja (Japanese) or hi (Hindi)",
+        help="The language to use, should be fr (French), en (English), es (Spanish), de (German), cn (Chinese), ja (Japanese) or hi (Hindi)",
         default="en",
     )
     parser.add_argument(
@@ -367,17 +362,11 @@ def main():
         else:
             sys.exit("Cannot open dict")
     else:
-        lang_dict = load_dict(
-            os.path.join(os.path.dirname(__file__), "dicts", args.language + ".txt")
-        )
+        lang_dict = load_dict(os.path.join(os.path.dirname(__file__), "dicts", args.language + ".txt"))
 
     # Create font (path) list
     if args.font_dir:
-        fonts = [
-            os.path.join(args.font_dir, p)
-            for p in os.listdir(args.font_dir)
-            if os.path.splitext(p)[1] == ".ttf"
-        ]
+        fonts = [os.path.join(args.font_dir, p) for p in os.listdir(args.font_dir) if os.path.splitext(p)[1] == ".ttf"]
     elif args.font:
         if os.path.isfile(args.font):
             fonts = [args.font]
@@ -387,11 +376,7 @@ def main():
         fonts = load_fonts(args.language)
 
     # Creating synthetic sentences (or word)
-    strings = []
-
-    if args.use_wikipedia:
-        strings = create_strings_from_wikipedia(args.length, args.count, args.language)
-    elif args.input_file != "":
+    if args.input_file != "":
         strings = create_strings_from_file(args.input_file, args.count)
     elif args.random_sequences:
         strings = create_strings_randomly(
@@ -411,21 +396,8 @@ def main():
         ):
             args.name_format = 2
     else:
-        strings = create_strings_from_dict(
-            args.length, args.random, args.count, lang_dict
-        )
+        strings = create_strings_from_dict(args.length, args.random, args.count, lang_dict)
 
-    if args.language == "ar":
-        from arabic_reshaper import ArabicReshaper
-        from bidi.algorithm import get_display
-
-        arabic_reshaper = ArabicReshaper()
-        strings = [
-            " ".join(
-                [get_display(arabic_reshaper.reshape(w)) for w in s.split(" ")[::-1]]
-            )
-            for s in strings
-        ]
     if args.case == "upper":
         strings = [x.upper() for x in strings]
     if args.case == "lower":
@@ -477,9 +449,7 @@ def main():
 
     if args.name_format == 2:
         # Create file with filename-to-label connections
-        with open(
-                os.path.join(args.output_dir, "labels.txt"), "w", encoding="utf8"
-        ) as f:
+        with open(os.path.join(args.output_dir, "labels.txt"), "w", encoding="utf8") as f:
             for i in range(string_count):
                 file_name = str(i) + "." + args.extension
                 label = strings[i]

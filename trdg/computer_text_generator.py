@@ -1,5 +1,4 @@
 import random as rnd
-from typing import Tuple
 
 from PIL import Image, ImageColor, ImageDraw, ImageFont
 
@@ -32,7 +31,7 @@ def generate(
         word_split: bool,
         stroke_width: int = 0,
         stroke_fill: str = "#282828",
-) -> Tuple:
+) -> tuple:
     if orientation == 0:
         return _generate_horizontal_text(
             text,
@@ -83,7 +82,7 @@ def _generate_horizontal_text(
         word_split: bool,
         stroke_width: int = 0,
         stroke_fill: str = "#282828",
-) -> Tuple:
+) -> tuple:
     image_font = ImageFont.truetype(font=font, size=font_size)
 
     space_width = int(get_text_width(image_font, " ") * space_width)
@@ -166,14 +165,12 @@ def _generate_vertical_text(
         fit: bool,
         stroke_width: int = 0,
         stroke_fill: str = "#282828",
-) -> Tuple:
+) -> tuple:
     image_font = ImageFont.truetype(font=font, size=font_size)
 
     space_height = int(get_text_height(image_font, " ") * space_width)
 
-    char_heights = [
-        get_text_height(image_font, c) if c != " " else space_height for c in text
-    ]
+    char_heights = [get_text_height(image_font, c) if c != " " else space_height for c in text]
     text_width = max([get_text_width(image_font, c) for c in text])
     text_height = sum(char_heights) + character_spacing * len(text)
 

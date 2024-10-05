@@ -1,12 +1,12 @@
 import os
-from typing import List, Tuple
-
-# support RTL
-from arabic_reshaper import ArabicReshaper
-from bidi.algorithm import get_display
 
 from trdg.data_generator import FakeTextDataGenerator
 from trdg.utils import load_fonts
+
+
+# # support RTL
+# from arabic_reshaper import ArabicReshaper
+# from bidi.algorithm import get_display
 
 
 class GeneratorFromStrings:
@@ -14,9 +14,9 @@ class GeneratorFromStrings:
 
     def __init__(
             self,
-            strings: List[str],
+            strings: list[str],
             count: int = -1,
-            fonts: List[str] = [],
+            fonts: list[str] = [],
             language: str = "en",
             size: int = 32,
             skewing_angle: int = 0,
@@ -33,13 +33,11 @@ class GeneratorFromStrings:
             orientation: int = 0,
             space_width: float = 1.0,
             character_spacing: int = 0,
-            margins: Tuple[int, int, int, int] = (5, 5, 5, 5),
+            margins: tuple[int, int, int, int] = (5, 5, 5, 5),
             fit: bool = False,
             output_mask: bool = False,
             word_split: bool = False,
-            image_dir: str = os.path.join(
-                "..", os.path.split(os.path.realpath(__file__))[0], "images"
-            ),
+            image_dir: str = os.path.join("..", os.path.split(os.path.realpath(__file__))[0], "images"),
             stroke_width: int = 0,
             stroke_fill: str = "#282828",
             image_mode: str = "RGB",
@@ -53,16 +51,16 @@ class GeneratorFromStrings:
             self.fonts = load_fonts(language)
         self.rtl = rtl
         self.orig_strings = []
-        if self.rtl:
-            if language == "ckb":
-                ar_reshaper_config = {"delete_harakat": True, "language": "Kurdish"}
-            else:
-                ar_reshaper_config = {"delete_harakat": False}
-            self.rtl_shaper = ArabicReshaper(configuration=ar_reshaper_config)
-            # save a backup of the original strings before arabic-reshaping
-            self.orig_strings = self.strings
-            # reshape the strings
-            self.strings = self.reshape_rtl(self.strings, self.rtl_shaper)
+        # if self.rtl:
+        #     if language == "ckb":
+        #         ar_reshaper_config = {"delete_harakat": True, "language": "Kurdish"}
+        #     else:
+        #         ar_reshaper_config = {"delete_harakat": False}
+        #     self.rtl_shaper = ArabicReshaper(configuration=ar_reshaper_config)
+        #     # save a backup of the original strings before arabic-reshaping
+        #     self.orig_strings = self.strings
+        #     # reshape the strings
+        #     self.strings = self.reshape_rtl(self.strings, self.rtl_shaper)
         self.language = language
         self.size = size
         self.skewing_angle = skewing_angle
@@ -138,17 +136,10 @@ class GeneratorFromStrings:
             else self.strings[(self.generated_count - 1) % len(self.strings)],
         )
 
-    def reshape_rtl(self, strings: list, rtl_shaper: ArabicReshaper):
-        # reshape RTL characters before generating any image
-        rtl_strings = []
-        for string in strings:
-            reshaped_string = rtl_shaper.reshape(string)
-            rtl_strings.append(get_display(reshaped_string))
-        return rtl_strings
-
-
-if __name__ == "__main__":
-    from trdg.generators.from_wikipedia import GeneratorFromWikipedia
-
-    s = GeneratorFromWikipedia("test")
-    next(s)
+    # def reshape_rtl(self, strings: list, rtl_shaper: ArabicReshaper):
+    #     # reshape RTL characters before generating any image
+    #     rtl_strings = []
+    #     for string in strings:
+    #         reshaped_string = rtl_shaper.reshape(string)
+    #         rtl_strings.append(get_display(reshaped_string))
+    #     return rtl_strings
