@@ -2,18 +2,12 @@ import argparse
 import errno
 import os
 import sys
-import warnings
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 import random as rnd
 import sys
 from multiprocessing import Pool
-from PIL import Image, ImageFile
-
-Image.MAX_IMAGE_PIXELS = None  # For PIL.Image.DecompressionBombError
-ImageFile.LOAD_TRUNCATED_IMAGES = True  # For OSError: image file is truncated
-warnings.filterwarnings("ignore", "Palette images with Transparency expressed in bytes")
 
 from tqdm import tqdm
 

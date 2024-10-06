@@ -1,7 +1,12 @@
 import os
 import random as rnd
+import warnings
 
-from PIL import Image, ImageFilter
+from PIL import Image, ImageFilter, ImageFile
+
+warnings.filterwarnings("ignore", "Palette images with Transparency expressed in bytes")
+Image.MAX_IMAGE_PIXELS = None  # For PIL.Image.DecompressionBombError
+ImageFile.LOAD_TRUNCATED_IMAGES = True  # For OSError: image file is truncated
 
 from trdg import computer_text_generator, background_generator, distorsion_generator
 from trdg.utils import mask_to_bboxes, make_filename_valid
