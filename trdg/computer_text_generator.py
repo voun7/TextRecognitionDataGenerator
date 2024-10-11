@@ -32,7 +32,7 @@ def generate(
         stroke_width: int = 0,
         stroke_fill: str = "#282828",
 ) -> tuple:
-    if "FFF_Tusj.ttf" in font and stroke_width > 1:
+    if "FFF_Tusj.ttf" in font and stroke_width:
         stroke_width = 0
 
     if orientation == 0:
